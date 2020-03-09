@@ -8,15 +8,17 @@ namespace Domain.Entities
 {
     public class PaymentAccount
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string AccountNumber { get; set; }
+        public string AccountName { get; set; }
         public decimal Balance { get; set; }
         public bool IsBlocked { get; set; }
         public ICollection<CreditCard> CreditCards { get; set; }
+        public ApplicationUser User { get; set; }
 
         public PaymentAccount()
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
         }
     }
 }

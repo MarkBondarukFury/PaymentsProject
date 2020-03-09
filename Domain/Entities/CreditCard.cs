@@ -10,6 +10,7 @@ namespace Domain.Entities
 {
     public class CreditCard
     {
+        public string Id { get; set; }
         public string CardNumber { get; set; }
         public DateTime ExpiryDate { get; set; }
         [MaxLength(3)]
@@ -18,6 +19,7 @@ namespace Domain.Entities
 
         public CreditCard()
         {
+            Id = Guid.NewGuid().ToString();
             //ExpiryDate = new DateTime(DateTime.Now.Year + 4, DateTime.Now.Month, DateTime.Now.Day);
         }
     }

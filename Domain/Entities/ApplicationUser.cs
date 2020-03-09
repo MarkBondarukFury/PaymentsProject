@@ -6,10 +6,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using Domain.Entities;
 
-namespace WebApplication.Models
+namespace Domain.Entities
 {
-    /*
-    // В профиль пользователя можно добавить дополнительные данные, если указать больше свойств для класса ApplicationUser. Подробности см. на странице https://go.microsoft.com/fwlink/?LinkID=317594.
     public class ApplicationUser : IdentityUser
     {
         public ICollection<PaymentAccount> Accounts { get; set; }
@@ -20,22 +18,10 @@ namespace WebApplication.Models
             // Здесь добавьте утверждения пользователя
             return userIdentity;
         }
-    }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationUser()
         {
-        }
-        public DbSet<PaymentAccount> PaymentAccounts { get; set; }
-        public DbSet<CreditCard> CreditCards { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
+            Accounts = new List<PaymentAccount>();
         }
     }
-    */
 }

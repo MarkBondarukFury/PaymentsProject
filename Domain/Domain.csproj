@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\CreditCard.cs" />
     <Compile Include="Entities\Payment.cs" />
     <Compile Include="Entities\PaymentAccount.cs" />
