@@ -10,7 +10,7 @@ namespace Domain.Entities
 {
     public class Payment
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime PaymentDate { get; set; }
         public string Number { get; set; }
         public PaymentState State { get; set; }
@@ -18,7 +18,7 @@ namespace Domain.Entities
 
         public Payment()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid();
             State = new PaymentPreparedState();
             Number = ((DateTime.Now.Year - 2000) * DateTime.Now.Month * DateTime.Now.Day).ToString();
         }

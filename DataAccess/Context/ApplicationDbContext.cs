@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using Domain.Entities;
+using Domain.PaymentStates;
 using DataAccess.Initializers;
 
 namespace DataAccess.Context
@@ -20,20 +21,18 @@ namespace DataAccess.Context
             : base("ApplicationDbConnection")
         {
         }
-        /*
+        
         public DbSet<PaymentAccount> PaymentAccounts { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
-       
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PaymentAccount>().HasMany(c => c.CreditCards);
+           // modelBuilder.Entity<PaymentAccount>().HasMany(c => c.CreditCards);
             base.OnModelCreating(modelBuilder);
 
             
-        }*/
+        }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

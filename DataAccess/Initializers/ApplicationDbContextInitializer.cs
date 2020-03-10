@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,8 +30,26 @@ namespace DataAccess.Initializers
 
             var admin = new ApplicationUser { Email = "markbondaruk.fury@gmail.com", UserName = "markbondaruk.fury@gmail.com" };
 
-            userManager.Create(admin, "initial44");
+            userManager.Create(admin, "adminPassword");
             userManager.AddToRole(admin.Id, "admin");
+
+            var moderator = new ApplicationUser { Email = "moderatorEmail@gmail.com", UserName = "moderatorEmail@gmail.com" };
+
+            userManager.Create(moderator, "moderatorPassword");
+            userManager.AddToRole(moderator.Id, "moder");
+
+            var users = new List<ApplicationUser>();
+
+            var user1 = new ApplicationUser() { Email = "someAppUser1@gmail.com", UserName = "someAppUser1@gmail.com" };
+            var user2 = new ApplicationUser() { Email = "someAppUser2@gmail.com", UserName = "someAppUser2@gmail.com" };
+            var user3 = new ApplicationUser() { Email = "someAppUser3@gmail.com", UserName = "someAppUser3@gmail.com" };
+
+            users.Add(user1);
+            users.Add(user2);
+            users.Add(user3);
+
+            users.ForEach(u => userManager.Create(u, "userPassword"));
+            users.ForEach(u => userManager.AddToRole(u.Id, "user"));
         }
     }
 }

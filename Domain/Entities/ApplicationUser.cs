@@ -10,7 +10,9 @@ namespace Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        public ICollection<PaymentAccount> Accounts { get; set; }
+        public ICollection<PaymentAccount> PaymentAccounts { get; set; }
+        public ICollection<Payment> Payments { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType
@@ -21,7 +23,6 @@ namespace Domain.Entities
 
         public ApplicationUser()
         {
-            Accounts = new List<PaymentAccount>();
         }
     }
 }

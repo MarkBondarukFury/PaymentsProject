@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class PaymentAccount
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string AccountNumber { get; set; }
         public string AccountName { get; set; }
         public decimal Balance { get; set; }
@@ -18,7 +18,7 @@ namespace Domain.Entities
 
         public PaymentAccount()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid();
         }
     }
 }

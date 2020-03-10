@@ -8,7 +8,10 @@ namespace Domain.PaymentStates
 {
     public abstract class PaymentState
     {
+        public Guid Id { get; set; }
         public PaymentState()
-        { }
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }
