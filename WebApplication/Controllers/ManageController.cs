@@ -3,10 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebApplication.Models;
+using DataAccess.Services;
+using Domain.Entities;
 
 namespace WebApplication.Controllers
 {
@@ -32,9 +35,9 @@ namespace WebApplication.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -320,6 +323,51 @@ namespace WebApplication.Controllers
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+        }
+
+        public ActionResult CreatePaymentAccount()
+        {
+            return View();
+        }
+
+        public ActionResult ViewPaymentAccounts()
+        {
+            return View();
+        }
+
+        public ActionResult CreatePayment()
+        {
+            return View();
+        }
+
+        public ActionResult ViewPayments()
+        {
+            PaymentService service = new PaymentService();
+            var payments = service.GetPaymentsByUserId(User.Identity.GetUserId());
+
+            return View(payments);
+        }
+
+        public ActionResult SortPaymentsdByNumber()
+        {
+            PaymentService service = new PaymentService();
+            var payments = service.GetPaymentsByUserIdSortedByNumber(User.Identity.GetUserId());
+            
+            return View("ViewPayments", payments); 
+        }
+
+        public ActionResult SortPaymentsdByDate(bool? reversed)
+        {
+            if (reversed == null)
+                reversed = true;
+            else reversed = !reversed;
+
+            PaymentService service = new PaymentService();
+            var payments = service.GetPaymentsByUserIdSortedByDate(User.Identity.GetUserId(), (bool)reversed);
+
+            ViewBag.Reversed = reversed;
+
+            return View("ViewPayments", payments);
         }
 
         protected override void Dispose(bool disposing)

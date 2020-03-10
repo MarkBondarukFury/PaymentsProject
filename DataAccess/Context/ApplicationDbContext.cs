@@ -25,13 +25,11 @@ namespace DataAccess.Context
         public DbSet<PaymentAccount> PaymentAccounts { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentState> PaymentStates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           // modelBuilder.Entity<PaymentAccount>().HasMany(c => c.CreditCards);
             base.OnModelCreating(modelBuilder);
-
-            
         }
         public static ApplicationDbContext Create()
         {

@@ -8,6 +8,8 @@ namespace Domain.PaymentStates
 {
     public class PaymentPreparedState : PaymentState
     {
-
+        public PaymentPreparedState()
+            :base()
+        { }
     }
 }

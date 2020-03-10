@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +8,7 @@ using DataAccess.Context;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Domain.Entities;
+using Domain.PaymentStates;
 
 namespace DataAccess.Initializers
 {
@@ -30,12 +30,12 @@ namespace DataAccess.Initializers
 
             var admin = new ApplicationUser { Email = "markbondaruk.fury@gmail.com", UserName = "markbondaruk.fury@gmail.com" };
 
-            userManager.Create(admin, "adminPassword");
+            userManager.Create(admin, "adminPassword1");
             userManager.AddToRole(admin.Id, "admin");
 
             var moderator = new ApplicationUser { Email = "moderatorEmail@gmail.com", UserName = "moderatorEmail@gmail.com" };
 
-            userManager.Create(moderator, "moderatorPassword");
+            userManager.Create(moderator, "moderatorPassword1");
             userManager.AddToRole(moderator.Id, "moder");
 
             var users = new List<ApplicationUser>();
@@ -48,8 +48,30 @@ namespace DataAccess.Initializers
             users.Add(user2);
             users.Add(user3);
 
-            users.ForEach(u => userManager.Create(u, "userPassword"));
+            users.ForEach(u => userManager.Create(u, "userPassword0"));
             users.ForEach(u => userManager.AddToRole(u.Id, "user"));
+
+            context.Payments.Add(new Payment()
+            {
+                PaymentDate = DateTime.Now,
+                State = new PaymentSentState(),
+                User = user1,
+                Number = "0001"
+            });
+            context.Payments.Add(new Payment()
+            {
+                PaymentDate = new DateTime(2019, 12, 16, 18, 0, 0),
+                State = new PaymentSentState(),
+                User = user1,
+                Number = "0002"
+            });
+            context.Payments.Add(new Payment()
+            {
+                PaymentDate = new DateTime(2020, 1, 6, 21, 17, 0),
+                State = new PaymentSentState(),
+                User = user1,
+                Number = "0003"
+            });
         }
     }
 }

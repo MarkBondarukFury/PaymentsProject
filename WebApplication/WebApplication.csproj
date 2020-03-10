@@ -265,6 +265,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Manage\ViewPaymentAccounts.cshtml" />
+    <Content Include="Views\Manage\CreatePayment.cshtml" />
+    <Content Include="Views\Manage\ViewPayments.cshtml" />
+    <Content Include="Views\Manage\CreatePaymentAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

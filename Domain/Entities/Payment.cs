@@ -19,8 +19,13 @@ namespace Domain.Entities
         public Payment()
         {
             Id = Guid.NewGuid();
-            State = new PaymentPreparedState();
-            Number = ((DateTime.Now.Year - 2000) * DateTime.Now.Month * DateTime.Now.Day).ToString();
+            Number = GenerateNumber();
+        }
+        private string GenerateNumber()
+        {
+            return PaymentDate == default(DateTime)
+                ? DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString()
+                : PaymentDate.Year.ToString() + PaymentDate.Month.ToString();
         }
     }
 }

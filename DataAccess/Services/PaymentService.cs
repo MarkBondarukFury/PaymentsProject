@@ -10,25 +10,25 @@ namespace DataAccess.Services
 {
     public class PaymentService
     {
-        /*
-        public IEnumerable<Payment> GetPaymentsByUser(ApplicationUser user)
+        public IEnumerable<Payment> GetPaymentsByUserId(string userId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return ctx.Payments.Where(p => p.User.Equals(user)).ToList();
+                var payments = ctx.Payments.Include("User").Include("State").Where(p => p.User.Id == userId).ToList();
+                return payments;
             }
         }
 
-        public IEnumerable<Payment> GetPaymentsByUserSortedByDate(ApplicationUser user, bool byNewerDate = true)
+        public IEnumerable<Payment> GetPaymentsByUserIdSortedByDate(string userId, bool byNewerDate = true)
         {
             return byNewerDate == true 
-                ? GetPaymentsByUser(user).OrderByDescending(p => p.PaymentDate)
-                : GetPaymentsByUser(user).OrderBy(p => p.PaymentDate);
+                ? GetPaymentsByUserId(userId).OrderByDescending(p => p.PaymentDate).ToList()
+                : GetPaymentsByUserId(userId).OrderBy(p => p.PaymentDate).ToList();
         }
 
-        public IEnumerable<Payment> GetPaymentsByUserSortedByNumber(ApplicationUser user)
+        public IEnumerable<Payment> GetPaymentsByUserIdSortedByNumber(string userId)
         {
-            return GetPaymentsByUser(user).OrderBy(p => p.Number);
+            return GetPaymentsByUserId(userId).OrderBy(p => p.Number).ToList();
         }
 
         public Payment Create(decimal sum, PaymentAccount accountSender, string cardReciever)
@@ -42,6 +42,5 @@ namespace DataAccess.Services
         {
            
         }
-        */
     }
 }
