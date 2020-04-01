@@ -1,0 +1,36 @@
+﻿@using Domain.Entities;
+
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewBag.Title = "Управление пользователями";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="users">
+    <tr>
+        <td>Имя пользователя</td>
+        <td>Email</td>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+
+            <td>@Html.ActionLink("Счета пользователя", "ManagePaymentAccounts", new { userId = user.Id })</td>
+            <td>
+                @if (!user.IsBlocked)
+                {
+                    @Html.ActionLink("Заблокировать пользователя", "BlockUser", new { userId = user.Id })
+                }
+                else
+                {
+                    @Html.ActionLink("Раpблокировать пользователя", "UnblockUser", new { userId = user.Id })
+                }
+            </td>
+        </tr>
+    }
+</table>

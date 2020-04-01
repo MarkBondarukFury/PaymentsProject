@@ -13,7 +13,8 @@ namespace Domain.Entities
         public string AccountName { get; set; }
         public decimal Balance { get; set; }
         public bool IsBlocked { get; set; }
-        public ICollection<CreditCard> CreditCards { get; set; }
+        public bool OnUnblocking { get; set; }
+        public ICollection<Card> Cards { get; set; }
         public ApplicationUser User { get; set; }
 
         public PaymentAccount()

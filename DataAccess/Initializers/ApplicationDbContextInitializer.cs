@@ -41,7 +41,7 @@ namespace DataAccess.Initializers
             var users = new List<ApplicationUser>();
 
             var user1 = new ApplicationUser() { Email = "someAppUser1@gmail.com", UserName = "someAppUser1@gmail.com" };
-            var user2 = new ApplicationUser() { Email = "someAppUser2@gmail.com", UserName = "someAppUser2@gmail.com" };
+            var user2 = new ApplicationUser() { Email = "someAppUser2@gmail.com", UserName = "someAppUser2@gmail.com", IsBlocked = true };
             var user3 = new ApplicationUser() { Email = "someAppUser3@gmail.com", UserName = "someAppUser3@gmail.com" };
 
             users.Add(user1);
@@ -51,9 +51,28 @@ namespace DataAccess.Initializers
             users.ForEach(u => userManager.Create(u, "userPassword0"));
             users.ForEach(u => userManager.AddToRole(u.Id, "user"));
 
+            var paymentAccount1 = new PaymentAccount()
+            {
+                AccountName = "ОщадДепозит",
+                AccountNumber = "23470000004444455555",
+                Balance = 1000,
+                User = user1
+            };
+            var paymentAccount2 = new PaymentAccount()
+            {
+                AccountName = "Кредитная линия",
+                AccountNumber = "23470000007777711111",
+                Balance = 10000,
+                User = user1
+            };
+
+            context.PaymentAccounts.Add(paymentAccount1);
+            context.PaymentAccounts.Add(paymentAccount2);
+
             context.Payments.Add(new Payment()
             {
                 PaymentDate = DateTime.Now,
+                Amount = 240,
                 State = new PaymentSentState(),
                 User = user1,
                 Number = "0001"
@@ -62,15 +81,38 @@ namespace DataAccess.Initializers
             {
                 PaymentDate = new DateTime(2019, 12, 16, 18, 0, 0),
                 State = new PaymentSentState(),
+                Amount = 400,
                 User = user1,
                 Number = "0002"
             });
             context.Payments.Add(new Payment()
             {
                 PaymentDate = new DateTime(2020, 1, 6, 21, 17, 0),
+                Amount = 370,
                 State = new PaymentSentState(),
                 User = user1,
                 Number = "0003"
+            });
+
+            context.Cards.Add(new Card()
+            {
+                CardNumber = "4400 1180 0000 5555",
+                PaymentAccount = paymentAccount1,
+                VerificationCode = "185",
+                ExpiryDate = new DateTime(2021, 4, 1)
+            });
+            context.Cards.Add(new Card()
+            {
+                CardNumber = "5240 0077 7700 0007",
+                PaymentAccount = paymentAccount2,
+                VerificationCode = "707"
+            });
+            context.Cards.Add(new Card()
+            {
+                CardNumber = "5240 0022 3300 0004",
+                PaymentAccount = paymentAccount2,
+                VerificationCode = "234",
+                ExpiryDate = new DateTime(2022, 8, 1)
             });
         }
     }

@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ApplicationUser.cs" />
-    <Compile Include="Entities\CreditCard.cs" />
+    <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\Payment.cs" />
     <Compile Include="Entities\PaymentAccount.cs" />
     <Compile Include="PaymentStates\PaymentPreparedState.cs" />

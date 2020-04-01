@@ -1,0 +1,34 @@
+﻿@using Domain.Entities;
+
+@model IEnumerable<PaymentAccount>
+@{
+    ViewBag.Title = "Управление счетами пользователя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="usersPaymentAccounts">
+    <tr>
+        <td>Название счета</td>
+        <td>Номер счета</td>
+        <td>Остаток</td>
+    </tr>
+    @foreach (var account in Model)
+    {
+        <tr>
+            <td>@account.AccountName</td>
+            <td>@account.AccountNumber</td>
+            <td>@account.Balance</td>
+            @if (!account.IsBlocked)
+            {
+                <td>@Html.ActionLink("Заблокировать", "BlockPaymentAccount")</td>
+            }
+            else
+            {
+                <td>@Html.ActionLink("Разблокировать", "UnblockPaymentAccount")</td>
+            }
+        </tr>
+    }
+
+</table>

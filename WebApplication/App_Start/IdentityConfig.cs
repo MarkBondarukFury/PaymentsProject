@@ -98,6 +98,16 @@ namespace WebApplication
         {
         }
 
+        public override Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
+        {
+            var user = UserManager.FindByNameAsync(userName).Result;
+
+            if (user.IsBlocked)
+                return Task.FromResult<SignInStatus>(SignInStatus.LockedOut);
+
+            return base.PasswordSignInAsync(userName, password, isPersistent, shouldLockout);
+        }
+
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
         {
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);

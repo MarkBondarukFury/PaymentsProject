@@ -1,0 +1,53 @@
+﻿@using Domain.Entities;
+@using Domain.PaymentStates;
+
+@model IEnumerable<PaymentAccount>
+
+@{
+    ViewBag.Title = "Список счетов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="paymentAccounts">
+    @{
+        <tr>
+            <td>@Html.ActionLink("Название счета", "SortPaymentAccountsByName")</td>
+            <td>@Html.ActionLink("Номер счета", "SortPaymentAccountsByNumber")</td>
+            <td>@Html.ActionLink("Остаток", "SortPaymentAccountsByBalance")</td>
+        </tr>
+        foreach (var paymentAccount in Model)
+        {
+        <tr>
+            <td>
+                @paymentAccount.AccountName @paymentAccount.AccountNumber @paymentAccount.Balance &#8372
+
+                @if (!paymentAccount.IsBlocked)
+                {
+                    if (ViewContext.RouteData.Values["controller"].ToString() == "PaymentAccount")
+                    {
+                        @Html.ActionLink("Управление счетом", "PaymentAccountInfo", new { paymentAccountId = paymentAccount.Id })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Заблокировать счет", "BlockPaymentAccount", "Manage", new { paymentAccountId = paymentAccount.Id }, null)
+                    }
+                }
+                else
+                {
+                    if (ViewContext.RouteData.Values["controller"].ToString() == "PaymentAccount")
+                    {
+                        <span>Счет @paymentAccount.AccountName заблокирован @Html.ActionLink("Управление счетом", "PaymentAccountInfo", new { paymentAccountId = paymentAccount.Id, isBlocked = true })</span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Разблокировать счет", "UnblockPaymentAccount", "Manage", new { paymentAccountId = paymentAccount.Id }, null)
+                    }
+                }
+            </td>
+        </tr>
+
+        }
+    }
+    </table>

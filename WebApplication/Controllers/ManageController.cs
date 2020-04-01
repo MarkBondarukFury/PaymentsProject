@@ -325,49 +325,60 @@ namespace WebApplication.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-        public ActionResult CreatePaymentAccount()
+        public ActionResult ViewAdminActivities()
         {
             return View();
         }
 
-        public ActionResult ViewPaymentAccounts()
+        public ActionResult ManageUsers()
         {
-            return View();
+            var users = UserManager.Users.ToList();
+            return View(users);
         }
 
-        public ActionResult CreatePayment()
+        public ActionResult BlockUser(string userId)
         {
-            return View();
+            var user = UserManager.FindById(userId);
+            user.IsBlocked = true;
+
+            UserManager.Update(user);
+
+            return RedirectToAction("ManageUsers");
         }
 
-        public ActionResult ViewPayments()
+        public ActionResult UnblockUser(string userId)
         {
-            PaymentService service = new PaymentService();
-            var payments = service.GetPaymentsByUserId(User.Identity.GetUserId());
+            var user = UserManager.FindById(userId);
+            user.IsBlocked = false;
 
-            return View(payments);
+            UserManager.Update(user);
+
+            return RedirectToAction("ManageUsers");
         }
 
-        public ActionResult SortPaymentsdByNumber()
+        public ActionResult ManagePaymentAccounts(string userId)
         {
-            PaymentService service = new PaymentService();
-            var payments = service.GetPaymentsByUserIdSortedByNumber(User.Identity.GetUserId());
-            
-            return View("ViewPayments", payments); 
+            var paymentAccounts = UserManager.Users.Where(u => u.Id == userId).First().PaymentAccounts;
+
+            return RedirectToAction("ViewPaymentAccounts", "PaymentAccount", paymentAccounts);
         }
 
-        public ActionResult SortPaymentsdByDate(bool? reversed)
+        public ActionResult BlockPaymentAccount(string accountId)
         {
-            if (reversed == null)
-                reversed = true;
-            else reversed = !reversed;
+            PaymentAccountService service = new PaymentAccountService();
+            service.Block(accountId);
 
-            PaymentService service = new PaymentService();
-            var payments = service.GetPaymentsByUserIdSortedByDate(User.Identity.GetUserId(), (bool)reversed);
+            return RedirectToAction("ManagePaymentAccounts");
+        }
 
-            ViewBag.Reversed = reversed;
+        public ActionResult UnblockPaymentAccount(string accountId)
+        {
+            PaymentAccountService service = new PaymentAccountService();
+            service.Unblock(accountId);
 
-            return View("ViewPayments", payments);
+          
+        
+            return RedirectToAction("ManagePaymentAccounts");
         }
 
         protected override void Dispose(bool disposing)

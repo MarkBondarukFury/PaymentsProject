@@ -1,0 +1,38 @@
+﻿@using Domain.Entities;
+
+@model PaymentAccount
+@{
+    ViewBag.Title = "Информация о счете";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>@Html.DisplayFor(m => m.AccountName)</p>
+<p>@Html.DisplayFor(m => m.AccountNumber)</p>
+
+@if (!Model.IsBlocked)
+{
+
+    <p>@Html.DisplayFor(m => m.Balance)</p>
+    <p>Информация о картах</p>
+    for (int i = 0; i < Model.Cards.Count; i++)
+    {
+        <p>
+            @Html.DisplayFor(m => m.Cards.ToList()[i].CardNumber)
+
+            @Html.DisplayFor(m => m.Cards.ToList()[i].ExpiryDate)
+        </p>
+    }
+    <p>@Html.ActionLink("Пополнить счет", "ReplenishPaymentAccount", new { accountId = Model.Id })</p>
+    <p>@Html.ActionLink("Заблокировать счет", "BlockPaymentAccount", new { accountId = Model.Id }, new { onclick = "return confirm('Вы действителньо хотите заблокировать счет?')" })</p>
+}
+else
+{
+    <p>Счет заблокирован</p>
+    <p>@Html.ActionLink("Разблокировать счет", "UnBlockPaymentAccount", new { accountId = Model.Id }, new { onclick = "return confirm('Вы действителньо хотите разблокировать счет?')" })</p>
+}
+
+
+
+

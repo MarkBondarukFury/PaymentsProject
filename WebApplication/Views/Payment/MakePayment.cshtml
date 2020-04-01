@@ -1,0 +1,24 @@
+﻿@using WebApplication.Models;
+
+@model  MakePaymentViewModel
+@{
+    ViewBag.Title = "Новый платеж";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Новый платеж</h2>
+
+@using (Html.BeginForm("MakePayment", "Payment", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <h4>Cоздание платежа</h4>
+    <hr />
+    @Html.ValidationSummary()
+    
+    @Html.DropDownListFor(m => m.PaymentAccountId, Model.PaymentAccounts)
+
+    @Html.LabelFor(m => m.Amount, "Введите сумму")
+    @Html.EditorFor(m => m.Amount)
+
+    <input type="submit" value="Оплатить" class="btn btn-default" />
+}

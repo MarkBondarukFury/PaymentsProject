@@ -7,48 +7,66 @@ namespace DataAccess.Services
 {
     public class PaymentAccountService
     {
-        public IEnumerable<PaymentAccount> GetPaymentAccountsByUser(string userId)
+        public PaymentAccount GetPaymentAccountById(string paymentAccountId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return ctx.PaymentAccounts.Include("User").Include("CreditCards").Where(a => a.User.Id == userId).ToList();
+                return ctx.PaymentAccounts.Include("Cards").Where(a => a.Id.ToString() == paymentAccountId).FirstOrDefault();
+            }
+        }
+        public IEnumerable<PaymentAccount> GetPaymentAccountsByUserId(string userId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                return ctx.PaymentAccounts.Include("User").Include("Cards").Where(a => a.User.Id == userId).ToList();
             }
         }
 
-        public IEnumerable<PaymentAccount> GetPaymentAccountsByUserSortedByNumber(string userId)
+        public List<PaymentAccount> GetPymentAccountsSortedByNumberByUserId(string userId)
         {
-            return GetPaymentAccountsByUser(userId).OrderBy(a => a.AccountNumber).ToList();
+            return GetPaymentAccountsByUserId(userId).OrderBy(a => a.AccountNumber).ToList();
         }
 
-        public IEnumerable<PaymentAccount> GetPaymentAccountsByUserSortedByBalance(string userId)
+        public List<PaymentAccount> GetPaymentAccountsSortedByBalanceByUserId(string userId)
         {
-            return GetPaymentAccountsByUser(userId).OrderByDescending(a => a.Balance).ToList();
+            return GetPaymentAccountsByUserId(userId).OrderByDescending(a => a.Balance).ToList();
         }
 
-        public IEnumerable<PaymentAccount> GetPaymentAccountsByUserSortedByName(string userId)
+        public List<PaymentAccount> GetPaymentAccountsSortedByNameByUserId(string userId)
         {
-            return GetPaymentAccountsByUser(userId).OrderBy(a => a.AccountName).ToList();
+            return GetPaymentAccountsByUserId(userId).OrderBy(a => a.AccountName).ToList();
         }
 
-        public void BlockAccount(string userId, string accountId)
+        public void Block(string accountId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.PaymentAccounts.Where(a => a.User.Id == userId && a.Id.ToString() == accountId);
-                var account = query.First();
-
+                var account = ctx.PaymentAccounts.Where(a => a.Id.ToString() == accountId).First();
                 account.IsBlocked = true;
+
+                ctx.SaveChanges();
             }
         }
 
-        public void UnblockAccount(string userId, string accountId)
+        public void Unblock(string accountId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.PaymentAccounts.Where(a => a.User.Id == userId && a.Id.ToString() == accountId);
-                var account = query.First();
-
+                var account = ctx.PaymentAccounts.Where(a => a.Id.ToString() == accountId).First();
                 account.IsBlocked = false;
+
+                ctx.SaveChanges();
+            }
+        }
+
+        public void Replenish(string accountId, decimal amount)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var account = ctx.PaymentAccounts.Where(a => a.Id.ToString() == accountId).First();
+                account.Balance += amount;
+
+                ctx.SaveChanges();
             }
         }
     }

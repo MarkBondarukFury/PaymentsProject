@@ -7,13 +7,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Список платежей</h2>
+<h2>@ViewBag.Title</h2>
 
-<table name="payments">
+<table class="payments">
     @{
     <tr>
         <td>@Html.ActionLink("Номер платежа", "SortPaymentsByNumber")</td>
-        <td>@Html.ActionLink("Дата платежа", "SortedPaymentsByDate", new { reversed = ViewBag.Reversed })</td>
+        <td>@Html.ActionLink("Дата платежа", "SortPaymentsByDate", new { reversed = ViewBag.Reversed })</td>
+        <td>Сумма платежа</td>
     </tr>
         foreach (var payment in Model)
         {
@@ -27,9 +28,9 @@
             {
                 <td>@payment.PaymentDate</td>
             }
+             <td>@payment.Amount</td> 
             </tr>
         }
-
     }
 </table>
 

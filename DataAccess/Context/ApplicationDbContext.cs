@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Domain.Entities;
 using Domain.PaymentStates;
 using DataAccess.Initializers;
+using System;
 
 namespace DataAccess.Context
 {
@@ -19,21 +20,22 @@ namespace DataAccess.Context
 
         public ApplicationDbContext()
             : base("ApplicationDbConnection")
-        {
-        }
+        { }
         
         public DbSet<PaymentAccount> PaymentAccounts { get; set; }
-        public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<Card> Cards { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentState> PaymentStates { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

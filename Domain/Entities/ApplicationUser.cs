@@ -12,6 +12,7 @@ namespace Domain.Entities
     {
         public ICollection<PaymentAccount> PaymentAccounts { get; set; }
         public ICollection<Payment> Payments { get; set; }
+        public bool IsBlocked { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

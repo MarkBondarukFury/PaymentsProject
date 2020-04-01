@@ -85,13 +85,20 @@
         </dd>
         <dt>Счета</dt>
         <dd>
-            [ @Html.ActionLink("Создать", "CreatePaymentAccount") ]
-            [ @Html.ActionLink("Список счетов", "ViewPaymentAccounts") ]
+            [ @Html.ActionLink("Создать", "CreatePaymentAccount", "PaymentAccount") ]
+            [ @Html.ActionLink("Список счетов", "ViewPaymentAccounts", "PaymentAccount") ]
         </dd>
         <dt>Платежи</dt>
         <dd>
-            [ @Html.ActionLink("Создать", "CreatePayment") ]
-            [ @Html.ActionLink("Список всех платежей", "ViewPayments", new { dateFlag = true }) ]
+            [ @Html.ActionLink("Создать", "MakePayment", "Payment") ]
+            [ @Html.ActionLink("Список платежей", "ViewPayments", "Payment", new { dateFlag = true }, null) ]
         </dd>
+        @if(User.IsInRole("admin"))
+        {
+        <dt>Администрирование</dt>
+        <dd>
+            [ @Html.ActionLink("Доступные действия", "ViewAdminActivities") ]
+        </dd>
+        }
     </dl>
 </div>

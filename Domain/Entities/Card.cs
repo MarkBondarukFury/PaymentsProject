@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class CreditCard
+    public class Card
     {
         public Guid Id { get; set; }
         public string CardNumber { get; set; }
@@ -17,7 +17,7 @@ namespace Domain.Entities
         public string VerificationCode { get; set; }
         public PaymentAccount PaymentAccount { get; set; }
 
-        public CreditCard()
+        public Card()
         {
             Id = Guid.NewGuid();
             ExpiryDate = new DateTime(DateTime.Now.Year + 4, DateTime.Now.Month, DateTime.Now.Day);

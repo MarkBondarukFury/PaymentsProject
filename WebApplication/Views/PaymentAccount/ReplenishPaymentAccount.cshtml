@@ -1,0 +1,24 @@
+﻿@using WebApplication.Models;
+@using Domain.Entities;
+
+@model ReplenishAccountViewModel
+@{
+    ViewBag.Title = "Пополнение счета";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("ReplenishPaymentAccount", "PaymentAccount", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <p>@Html.LabelFor(m => m.Amount, "Введите сумму пополнения")</p>
+    <p>@Html.EditorFor(m => m.Amount, new { @class = "form-control" })</p>
+
+    <input type="submit" value="Пополнить" class="btn btn-default" />
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
