@@ -19,7 +19,7 @@ namespace DataAccess.Context
         }
 
         public ApplicationDbContext()
-            : base("ApplicationDbConnection")
+            : base("AppDbConnection")
         { }
         
         public DbSet<PaymentAccount> PaymentAccounts { get; set; }
