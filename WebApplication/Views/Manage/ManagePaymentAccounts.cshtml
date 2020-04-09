@@ -8,27 +8,35 @@
 
 <h2>@ViewBag.Title</h2>
 
-<table class="usersPaymentAccounts">
-    <tr>
-        <td>Название счета</td>
-        <td>Номер счета</td>
-        <td>Остаток</td>
-    </tr>
-    @foreach (var account in Model)
-    {
+@if (Model.Any())
+{
+    <table class="usersPaymentAccounts">
         <tr>
-            <td>@account.AccountName</td>
-            <td>@account.AccountNumber</td>
-            <td>@account.Balance</td>
-            @if (!account.IsBlocked)
-            {
-                <td>@Html.ActionLink("Заблокировать", "BlockPaymentAccount")</td>
-            }
-            else
-            {
-                <td>@Html.ActionLink("Разблокировать", "UnblockPaymentAccount")</td>
-            }
+            <td>Название счета</td>
+            <td>Номер счета</td>
+            <td>Остаток</td>
         </tr>
-    }
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.AccountName</td>
+                <td>@account.AccountNumber</td>
+                <td>@account.Balance</td>
+                @if (!account.IsBlocked)
+                {
+                    <td>@Html.ActionLink("Заблокировать", "BlockPaymentAccount", new { accountId = account.Id })</td>
+                }
+                else if (account.OnUnblocking)
+                {
+                    <td>@Html.ActionLink("Разблокировать", "UnblockPaymentAccount", new { accountId = account.Id })</td>
+                    <td>Получен запрос на разблокировку</td>
+                }
+                else
+                {
+                    <td>@Html.ActionLink("Разблокировать", "UnblockPaymentAccount", new { accountId = account.Id })</td>
+                }
+            </tr>
+        }
 
-</table>
+    </table>
+}

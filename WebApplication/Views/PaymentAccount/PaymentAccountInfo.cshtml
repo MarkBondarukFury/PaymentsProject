@@ -13,24 +13,30 @@
 
 @if (!Model.IsBlocked)
 {
-
+    if (Model.Cards.Any())
+    {
     <p>@Html.DisplayFor(m => m.Balance)</p>
     <p>Информация о картах</p>
-    for (int i = 0; i < Model.Cards.Count; i++)
-    {
+        for (int i = 0; i < Model.Cards.Count; i++)
+        {
         <p>
             @Html.DisplayFor(m => m.Cards.ToList()[i].CardNumber)
 
             @Html.DisplayFor(m => m.Cards.ToList()[i].ExpiryDate)
         </p>
+        }
     }
     <p>@Html.ActionLink("Пополнить счет", "ReplenishPaymentAccount", new { accountId = Model.Id })</p>
-    <p>@Html.ActionLink("Заблокировать счет", "BlockPaymentAccount", new { accountId = Model.Id }, new { onclick = "return confirm('Вы действителньо хотите заблокировать счет?')" })</p>
+    <p>@Html.ActionLink("Заблокировать счет", "BlockPaymentAccount", new { accountId = Model.Id }, new { onclick = "return confirm('Вы действительно хотите заблокировать счет?')" })</p>
+}
+else if (Model.OnUnblocking)
+{
+    <p>Запрос на разблокировку находится в расмотрении</p>
 }
 else
 {
     <p>Счет заблокирован</p>
-    <p>@Html.ActionLink("Разблокировать счет", "UnBlockPaymentAccount", new { accountId = Model.Id }, new { onclick = "return confirm('Вы действителньо хотите разблокировать счет?')" })</p>
+    <p>@Html.ActionLink("Разблокировать счет", "UnBlockPaymentAccount", new { accountId = Model.Id }, new { onclick = "return confirm('Вы действительyо хотите разблокировать счет?')" })</p>
 }
 
 

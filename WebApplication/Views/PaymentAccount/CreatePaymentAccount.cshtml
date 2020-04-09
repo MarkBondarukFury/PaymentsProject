@@ -1,4 +1,6 @@
-﻿
+﻿@using Domain.Entities
+
+@model PaymentAccount
 @{
     ViewBag.Title = "Создание нового счета";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +8,7 @@
 
 <h2>Создание нового счета</h2>
 
+<p>Ваш счет был успешно создан</p>
+<p>@Html.ActionLink("Перейти к счету", "PaymentAccountInfo", new { paymentAccountId = Model.Id })</p>
+
+ 

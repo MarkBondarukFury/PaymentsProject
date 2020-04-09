@@ -82,9 +82,7 @@
     <Compile Include="Services\PaymentAccountService.cs" />
     <Compile Include="Services\PaymentService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

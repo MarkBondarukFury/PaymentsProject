@@ -9,20 +9,21 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-<table class="paymentAccounts">
-    @{
+@if (Model.Any())
+{
+    <table class="paymentAccounts">
         <tr>
             <td>@Html.ActionLink("Название счета", "SortPaymentAccountsByName")</td>
             <td>@Html.ActionLink("Номер счета", "SortPaymentAccountsByNumber")</td>
             <td>@Html.ActionLink("Остаток", "SortPaymentAccountsByBalance")</td>
         </tr>
-        foreach (var paymentAccount in Model)
+        @foreach (var paymentAccount in Model)
         {
         <tr>
+            <td>@paymentAccount.AccountName</td>
+            <td>@paymentAccount.AccountNumber</td>
+            <td>@paymentAccount.Balance &#8372</td>
             <td>
-                @paymentAccount.AccountName @paymentAccount.AccountNumber @paymentAccount.Balance &#8372
-
                 @if (!paymentAccount.IsBlocked)
                 {
                     if (ViewContext.RouteData.Values["controller"].ToString() == "PaymentAccount")
@@ -47,7 +48,6 @@
                 }
             </td>
         </tr>
-
         }
-    }
     </table>
+}

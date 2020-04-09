@@ -13,9 +13,12 @@ namespace WebApplication.Controllers
 {
     public class PaymentAccountController : Controller
     {
-        public ActionResult CreatePaymentAccount()
+        public ActionResult CreatePaymentAccount(string accountId)
         {
-            return View();
+            PaymentAccountService service = new PaymentAccountService();
+            var account = service.CreatePaymentAccount(User.Identity.GetUserId());
+
+            return View(account);
         }
 
         public ActionResult BlockPaymentAccount(string accountId)
@@ -29,9 +32,11 @@ namespace WebApplication.Controllers
         public ActionResult UnblockPaymentAccount(string accountId)
         {
             PaymentAccountService service = new PaymentAccountService();
-            service.Unblock(accountId);
+            service.SetOnUnblocking(accountId);
 
-            return RedirectToAction("ViewPaymentAccounts");
+            var account = service.GetPaymentAccountById(accountId);
+
+            return View("PaymentAccountInfo", account);
         }
 
         public ActionResult ReplenishPaymentAccount(string accountId)

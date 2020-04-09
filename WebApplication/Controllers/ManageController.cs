@@ -101,7 +101,7 @@ namespace WebApplication.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
-
+        /*
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
@@ -215,7 +215,7 @@ namespace WebApplication.Controllers
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
-
+        */
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
@@ -278,7 +278,7 @@ namespace WebApplication.Controllers
             // Это сообщение означает наличие ошибки; повторное отображение формы
             return View(model);
         }
-
+        /*
         //
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
@@ -324,7 +324,7 @@ namespace WebApplication.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
-
+        */
         public ActionResult ViewAdminActivities()
         {
             return View();
@@ -358,9 +358,10 @@ namespace WebApplication.Controllers
 
         public ActionResult ManagePaymentAccounts(string userId)
         {
-            var paymentAccounts = UserManager.Users.Where(u => u.Id == userId).First().PaymentAccounts;
+            PaymentAccountService service = new PaymentAccountService();
+            var payments = service.GetPaymentAccountsByUserId(userId);
 
-            return RedirectToAction("ViewPaymentAccounts", "PaymentAccount", paymentAccounts);
+            return View(payments);
         }
 
         public ActionResult BlockPaymentAccount(string accountId)
@@ -368,17 +369,23 @@ namespace WebApplication.Controllers
             PaymentAccountService service = new PaymentAccountService();
             service.Block(accountId);
 
-            return RedirectToAction("ManagePaymentAccounts");
+            var id = service.GetPaymentAccountById(accountId).User.Id;
+
+            return RedirectToAction("ManagePaymentAccounts", new { userId = id } );
         }
 
         public ActionResult UnblockPaymentAccount(string accountId)
         {
             PaymentAccountService service = new PaymentAccountService();
+
+            if (service.GetPaymentAccountById(accountId).OnUnblocking)
+                ViewBag.OnUnblocking = true;
+                
             service.Unblock(accountId);
 
-          
-        
-            return RedirectToAction("ManagePaymentAccounts");
+            var id = service.GetPaymentAccountById(accountId).User.Id;
+
+            return RedirectToAction("ManagePaymentAccounts", new { userId = id });
         }
 
         protected override void Dispose(bool disposing)
